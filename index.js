@@ -29,6 +29,7 @@ async function run() {
     try {
         // Connect the client to the server	(optional starting in v4.7)
         const craftCollection = client.db('craftDB').collection('craft');
+        const cardCollection= client.db('craftDB').collection('category')
         // await client.connect();
 
         app.post('/craftItems', async (req, res) => {
@@ -38,6 +39,9 @@ async function run() {
             res.send(result)
 
         })
+
+        // print 6 data caregory from database.here data has manually creater.
+
         // print all data from database to client
         app.get('/craftItems', async (req, res) => {
             const cursor = craftCollection.find();
