@@ -11,7 +11,7 @@ app.use(cors())
 app.use(express.json());
 
 
-console.log(process.env.user)
+// console.log(process.env.user)
 // database start
 
 const uri = `mongodb+srv://${process.env.user}:${process.env.password}@cluster0.yl5czei.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0`;
@@ -42,6 +42,7 @@ async function run() {
         app.get('/craftItems', async (req, res) => {
             const cursor = craftCollection.find();
             const result = await cursor.toArray();
+            console.log(cursor);
             res.send(result)
         })
 
@@ -49,8 +50,31 @@ async function run() {
         app.get('/craftItems/:_id', async (req, res) => {
             const id = req.params._id;
             const query = { _id: new ObjectId(id) };
-            console.log('update data for',id)
+            // console.log('update data for',id)
             const result = await craftCollection.findOne(query);
+            res.send(result);
+        })
+
+        // update this data put in database
+        app.put('/craftItems/:_id',async(req,res)=>{
+            const id=req.params._id;
+            const filter={_id:new ObjectId(id)};
+            const options = { upsert: true };
+            const updateCraft=req.body;
+            const Craft = {
+                $set: {
+                    image: updateCraft.image,
+                    item_name:updateCraft.item_name,
+                    subcategory:updateCraft.subcategory,
+                    description:updateCraft.description,
+                    price:updateCraft.price,
+                    rating:updateCraft.rating,
+                    customization:updateCraft.customization,
+                    processing_time:updateCraft.processing_time,
+                    stockStatus:updateCraft.stockStatus, 
+                }
+            }
+            const result=await craftCollection.updateOne(filter,Craft,options);
             res.send(result);
         })
 
