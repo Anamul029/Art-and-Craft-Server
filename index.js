@@ -32,25 +32,36 @@ async function run() {
         await client.connect();
 
         app.post('/craftItems', async (req, res) => {
-            const newCraft=req.body;
+            const newCraft = req.body;
             console.log(newCraft)
-            const result=await craftCollection.insertOne(newCraft)
+            const result = await craftCollection.insertOne(newCraft)
             res.send(result)
 
         })
         // print all data from database to client
-        app.get('/craftItems',async(req,res)=>{
-            const cursor=craftCollection.find();
-            const result=await cursor.toArray();
+        app.get('/craftItems', async (req, res) => {
+            const cursor = craftCollection.find();
+            const result = await cursor.toArray();
             res.send(result)
         })
 
         // get data from database to update data
-        app.get('/craftItems/:id',async(req,res)=>{
-            const id=req.params.id;
-            const query={_id:new ObjectId(id)};
-            const result= await craftCollection.findOne(query);
+        app.get('/craftItems/:_id', async (req, res) => {
+            const id = req.params._id;
+            const query = { _id: new ObjectId(id) };
+            const result = await craftCollection.findOne(query);
             res.send(result);
+        })
+
+
+
+        // delete data from database
+        app.delete('/craftItems/:_id', async (req, res) => {
+            const id = req.params._id;
+            console.log(id)
+            const query = { _id: new ObjectId(id) }
+            const result = await craftCollection.deleteOne(query)
+            res.send(result)
         })
 
 
