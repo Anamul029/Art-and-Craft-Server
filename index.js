@@ -29,7 +29,7 @@ async function run() {
     try {
         // Connect the client to the server	(optional starting in v4.7)
         const craftCollection = client.db('craftDB').collection('craft');
-        await client.connect();
+        // await client.connect();
 
         app.post('/craftItems', async (req, res) => {
             const newCraft = req.body;
@@ -49,6 +49,7 @@ async function run() {
         app.get('/craftItems/:_id', async (req, res) => {
             const id = req.params._id;
             const query = { _id: new ObjectId(id) };
+            console.log('update data for',id)
             const result = await craftCollection.findOne(query);
             res.send(result);
         })
