@@ -55,6 +55,15 @@ async function run() {
             res.send(result)
         })
 
+        // personal craftlist
+        app.get('/craftItems-user/:email',async(req,res)=>{
+            const email=req.params.email;
+            const cursor= craftCollection.find({User_Email:email})
+            const result=await cursor.toArray();
+            res.send(result)
+        })
+
+
         // get data from database to update data
         app.get('/craftItems/:_id', async (req, res) => {
             const id = req.params._id;
