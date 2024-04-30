@@ -30,7 +30,7 @@ async function run() {
         // Connect the client to the server	(optional starting in v4.7)
         const craftCollection = client.db('craftDB').collection('craft');
         const cardCollection= client.db('craftDB').collection('category')
-        await client.connect();
+        // await client.connect();
 
         app.post('/craftItems', async (req, res) => {
             const newCraft = req.body;
@@ -38,12 +38,6 @@ async function run() {
             const result = await craftCollection.insertOne(newCraft)
             res.send(result)
 
-        })
-
-        // add additional information in database
-        app.get('/extraInfo',async(req,res)=>{
-            const cursor=cardCollection.body;
-            const result=await cursor.toArray()
         })
 
         // print 6 data caregory from database.here data has manually creater.
