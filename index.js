@@ -40,7 +40,7 @@ async function run() {
 
         })
 
-        // print 6 data caregory from database.here data has manually creater.
+        // print 6 data caregory from database.here data has manually created.
         app.get('/caregories',async(req,res)=>{
             const cursor=cardCollection.find();
             const result=await cursor.toArray();
